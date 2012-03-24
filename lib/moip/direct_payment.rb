@@ -148,6 +148,26 @@ module MoIP
                   xml.TelefoneFixo { xml.text attributes[:pagador][:tel_fixo] }
                 }
               }
+              
+              unless attributes[:comissoes].nil?
+                xml.Comissoes {
+                  attributes[:comissoes].each do |comissao|
+                    xml.Comissionamento {
+                      xml.Razao { xml.text comissao[:razao] }
+                      xml.Comissionado {
+                        xml.LoginMoip { xml.text comissao[:login_moip]}
+                      }
+                      xml.ValorFixo { xml.text comissao[:valor_fixo]}
+                    }
+                  end
+                }  
+              end
+              
+              unless attributes[:recebedor].nil?
+                xml.Recebedor {
+                  xml.Email { xml.text attributes[:recebedor][:email]}
+                }
+              end
 
               # Boleto Bancario
               if attributes[:forma] == "BoletoBancario"
